@@ -43,7 +43,8 @@ def update_image_exif(img_path, exif_dict):
 
 def update_video_metadata(video_path, metadata):
     metadata_path = video_path + ".metadata.txt"
-    temp_path = video_path + "_temp"
+    root, ext = os.path.splitext(video_path)
+    temp_path = f"{root}_temp{ext}"
     try:
         meta_export = ffmpeg.input(video_path).output("-", format="ffmetadata").run(capture_stdout=True)
         with open(metadata_path, "wb") as f:
