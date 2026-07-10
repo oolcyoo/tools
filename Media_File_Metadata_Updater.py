@@ -12,6 +12,7 @@ from PIL import Image, PngImagePlugin
 
 IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".heic", ".png", ".gif")
 VIDEO_EXTENSIONS = (".mov", ".mp4")
+MEDIA_EXTENSIONS = IMAGE_EXTENSIONS + VIDEO_EXTENSIONS
 
 
 def update_image_metadata(img_path, formatted_time, exif_dict):
@@ -114,12 +115,14 @@ def process_video_file(json_data, media_path):
     update_video_metadata(media_path, metadata)
 
 
-def find_matching_media(directory, base_filename):
+def find_matching_media(directory, json_base_filename):
+    candidates = {json_base_filename.lower()}
+    for ext in MEDIA_EXTENSIONS:
+        candidates.add((json_base_filename + ext).lower())
+
     for filename in os.listdir(directory):
-        path = os.path.join(directory, filename)
-        name_without_json = filename.rsplit(".", 1)[0]
-        if name_without_json == base_filename and filename.lower().endswith(IMAGE_EXTENSIONS + VIDEO_EXTENSIONS):
-            return path
+        if filename.lower() in candidates and filename.lower().endswith(MEDIA_EXTENSIONS):
+            return os.path.join(directory, filename)
     return None
 
 
@@ -129,8 +132,8 @@ def update_directory_metadata(directory):
             continue
 
         json_path = os.path.join(directory, filename)
-        base_filename = filename.rsplit(".", 1)[0]
-        media_path = find_matching_media(directory, base_filename)
+        json_base_filename = filename.rsplit(".", 1)[0]
+        media_path = find_matching_media(directory, json_base_filename)
         if not media_path:
             continue
 
