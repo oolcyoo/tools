@@ -16,6 +16,7 @@ env/
 combined.pdf
 *.metadata.txt
 *_temp
+*_temp.*
 
 # Local media/input folders
 TP/
