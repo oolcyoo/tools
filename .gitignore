@@ -1,0 +1,28 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local environments
+.venv/
+venv/
+env/
+.env
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Generated utility outputs
+combined.pdf
+*.metadata.txt
+*_temp
+*_temp.*
+
+# Local media/input folders
+TP/
+M6P/
+
+# OS/editor files
+.DS_Store
+.vscode/
+.idea/
